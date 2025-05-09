@@ -149,11 +149,12 @@ int main()
 
 
 
+        //Autonomous logic 
 
         dX = position.x;
         dY = position.y; 
         dR = rot;
-        // if(abs(rot-dR)<=1)rot+=5;
+
         if(cutoff[1]){
             forward();
             if(!cutoff[0]&&cutoff[2])left();
@@ -161,10 +162,20 @@ int main()
         } else {
             if(!cutoff[0])left();
             else if(!cutoff[2])right();
-            else if(!cutoff[1])right();
+            else if(!cutoff[1]){
+                if(togg){
+                    right();
+                    togg=!togg;
+                } else {
+                    left();
+                    togg=!togg;
+                }
+            
+            }
         }
 
-        // direct towards final goal
+        //if all rays are blocked, SHAKE THAT BOOTIEEE till it recovers
+
         if(!cutoff[0]&&!cutoff[1]&&!cutoff[2]){
             if(togg){
                 rot+=rotAm;
@@ -179,7 +190,6 @@ int main()
         shakeIt();
         
         c.updateCar(position.x,position.y,rot);
-        // drawGrid();
 
         EndDrawing();
     }
